@@ -6,7 +6,7 @@ let obj;
 
 function setup() {
     createCanvas(w, h);
-    obj = new Objeto(w / 2, 50, 50, 50);
+    obj = new Objeto(w / 2, 50, 30, 50);
 }
 
 function draw() {
@@ -43,6 +43,10 @@ function keyPressed() {
         }
     } else if (keyCode == DOWN_ARROW) {
         obj.keys.down = true;
+    } else if(key == "a") {
+        obj.keys.punch = true;
+    } else if(key == "s") {
+        obj.keys.palne = true;
     }
 }
 
@@ -51,6 +55,8 @@ function keyReleased() {
         obj.keys.left = false;
     } else if (keyCode === RIGHT_ARROW) {
         obj.keys.right = false;
+    } else if(key == "s") {
+        obj.keys.palne = false;
     }
     return false; // prevent any default behavior
 }

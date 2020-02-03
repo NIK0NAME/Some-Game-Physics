@@ -15,7 +15,9 @@ class Objeto {
             left: false,
             right: false,
             top: false,
-            down: false
+            down: false,
+            punch: false,
+            palne: false
         }
         this.suelo = false;
 
@@ -27,7 +29,12 @@ class Objeto {
         noStroke();
         fill(this.color);
         rect(this.x, this.y, this.w, this.h);
-
+        fill("#fff");
+        if(this.dirX == -1) {
+            rect(this.x, this.y + 10, 20, 20);
+        }else {
+            rect(this.x + this.w - 20, this.y + 10, 20, 20);
+        }
         this.particulases.forEach((elem, i) => {
             elem.show();
         });
@@ -57,7 +64,19 @@ class Objeto {
         this.suelo = false;
         if (this.y + this.h > 500) {
             this.suelo = true;
+            this.keys.palne = false;
             this.y = 500 - this.h;
+        }
+        if(this.x < 0) {
+            this.x = 0;
+        }
+        if(this.x + this.w > width) {
+            this.x = width - this.w;
+        }
+        if(this.y < 0) {
+            //this.y = 0;
+            //this.dirY = 1;
+            //this.xForce = -2;
         }
     }
 
@@ -71,22 +90,30 @@ class Objeto {
         }
 
         if (!this.suelo) {
+            
             this.yForce += 0.5;
+            
         }
 
         if (this.suelo && this.keys.top) {
-            this.yForce = 5;
-            obj.dirY = -1;
+            this.yForce = -10;
             this.keys.top = false;
-            this.jump = true;
+            //this.jump = true;
         }
 
         if (this.keys.down) {
             this.keys.down = false;
-            this.x += 50 * this.dirX;
+            this.xForce += 30;
+        }
+        
+        
+
+        if(this.keys.punch) {
+            this.keys.punch = false;
+            this.xForce += 12;
         }
 
-        if (this.jump) {
+        /*if (this.jump) {
             this.jumpCounter++;
             if (this.jumpCounter > 18) {
                 this.jumpCounter = 0;
@@ -94,7 +121,7 @@ class Objeto {
                 this.jump = false;
                 this.yForce = 0.4;
             }
-        }
+        }*/
 
         if ((this.keys.left || this.keys.right) && this.xForce < 30) {
             /*if (this.suelo) {
